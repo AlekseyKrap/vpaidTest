@@ -23,7 +23,7 @@
                         <VideoClicks> </VideoClicks>
                         <MediaFiles>
                             <MediaFile delivery="progressive" bitrate="256" width="0" height="0" type="application/javascript" apiFramework="VPAID">
-                                <![CDATA[http://localhost:5000/vpaidConteiner.js ]]>
+                                <![CDATA[https://alekseykrap.github.io/vpaidTest/vpaidConteiner.js ]]>
                             </MediaFile>
                         </MediaFiles>
                     </Linear>
