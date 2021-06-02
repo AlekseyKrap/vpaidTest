@@ -1,0 +1,34 @@
+<VAST version="2.0">
+    <Ad id="721655">
+        <InLine>
+            <AdSystem>AdRiver</AdSystem>
+            <AdTitle>VPAID Ad</AdTitle>
+            <Impression>
+                <![CDATA[ https://ad.adriver.ru/cgi-bin/event.cgi?xpid=DdTKqebJBTgSvuASUDihmclSss07wx-I--S5Zl7dMk4fIWpjlg4Y5CYgdkHf9IZFFMiXed2RyVZ5s11VpDyA&sid=1&sliceid=0&bn=3225788&pz=0&sz=&ad=721655&bid=7288891&bt=99&tuid=-1&type=0&custom=207=&tail256= ]]>
+            </Impression>
+            <Impression>
+                <![CDATA[ ]]>
+            </Impression>
+            <Impression>
+                <![CDATA[ https://ar.tns-counter.ru/V13a****ar_ru/ru/CP1251/tmsec=34250_721655-3225788/0 ]]>
+            </Impression>
+            <Creatives>
+                <Creative id="7288891">
+                    <Linear>
+                        <Duration>00:00:20</Duration>
+                        <TrackingEvents> </TrackingEvents>
+                        <AdParameters>
+                            <![CDATA[ {"site":"1","bt":"99","bn":"3225788","sliceid":"0","pz":"0","sz":"","ad":"721655","bid":"7288891","xpid":"DdTKqebJBTgSvuASUDihmclSss07wx-I--S5Zl7dMk4fIWpjlg4Y5CYgdkHf9IZFFMiXed2RyVZ5s11VpDyA","domain":"https://mh6.adriver.ru", "url":"https://www.s7.ru/ru/offers/letniy-otdykh/?utm_source=ms_all_roll_interests&utm_medium=banner&utm_campaign=summer_2021&utm_term=video_20s_rus_rocks&utm_content=omd","skiptime":"00&#x3A;00&#x3A;00", "duration":"00:00:20.000", "TrackingEvents":{"acceptInvitation":[],"close":[],"collapse":[],"complete":[],"creativeView":[],"exitFullscreen":[],"expand":[],"firstQuartile":[],"fullscreen":[],"midpoint":[],"mute":[],"pause":[],"progress":[],"progress_offset":"","resume":[],"rewind":[],"skip":[],"start":[],"thirdQuartile":[],"unmute":[]}, "chwl":"", "cv":{"time":"", "area":""}, "playerHandles": "0" ,"buttons":[],"videos":[{"mimetype":"video/mp4","url":"https://mh6.adriver.ru/mf/0007288/0007288891/0/S7_20s_ROCKS_1280x720.mp4"}], "jstracker":[]} ]]>
+                        </AdParameters>
+                        <VideoClicks> </VideoClicks>
+                        <MediaFiles>
+                            <MediaFile delivery="progressive" bitrate="256" width="0" height="0" type="application/javascript" apiFramework="VPAID">
+                                <![CDATA[http://localhost:5000/vpaidConteiner.js ]]>
+                            </MediaFile>
+                        </MediaFiles>
+                    </Linear>
+                </Creative>
+            </Creatives>
+        </InLine>
+    </Ad>
+</VAST>
