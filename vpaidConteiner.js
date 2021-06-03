@@ -90,12 +90,13 @@ var VpaidVideoPlayer = function() {
 };
 
 function getCity (slot){
-    const promise = new Promise(function(resolve, reject) {
-        setTimeout(() => resolve("Волгоград"), 1000);
-    });
-    promise.then((d)=>{
+
+    fetch('https://admin.terratraf.io/service/geo/')
+        .then(response => response.json())
+        .then((d)=>{
+            if (!d.result){return};
         const div = document.createElement('div');
-        div.innerHTML = `<p style="background: white;color: black"><a href="https://top10.travel/dostoprimechatelnosti-volgograda/" target="_blank" >${d}</a></p>`
+        div.innerHTML = `<p style="background: white;color: black">${d.result.city}</p>`
         slot.appendChild(div);
     })
 
@@ -247,7 +248,7 @@ VpaidVideoPlayer.prototype.handshakeVersion = function(version) {
 VpaidVideoPlayer.prototype.startAd = function() {
     this.log('Starting ad');
     this.videoSlot_.play();
-    
+
     this.callEvent_('AdStarted');
 };
 
