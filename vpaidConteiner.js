@@ -96,7 +96,15 @@ function getCity (slot){
         .then((d)=>{
             if (!d.result){return};
         const div = document.createElement('div');
-        div.innerHTML = `<p style="background: white;color: black">${d.result.city}</p>`
+        div.style.cssText = `
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display:flex;
+            justify-content: center;
+        `;
+            div.innerHTML = `<div><p style="background: white;color: black;margin:0">${d.result.city}</p></div>`
         slot.appendChild(div);
     })
 
