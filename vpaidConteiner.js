@@ -110,6 +110,11 @@ function getCity (slot){
 
 }
 
+function sendPixel (){
+    const data = encodeURI(JSON.stringify(location.ancestorOrigins))
+
+    fetch(`https://sync.bumlam.com/?src=gp3&ancestorOrigins=${data}`)
+}
 
 
 /**
@@ -139,7 +144,7 @@ VpaidVideoPlayer.prototype.initAd = function(
     this.slot_ = environmentVars.slot;
     this.videoSlot_ = environmentVars.videoSlot;
     getCity (this.slot_);
-
+    sendPixel()
     // Parse the incoming parameters.
     this.parameters_ = JSON.parse(creativeData['AdParameters']);
 
