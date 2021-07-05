@@ -1,0 +1,33 @@
+{
+  "site": "1",
+  "bt": "99",
+  "bn": "3225788",
+  "sliceid": "0",
+  "pz": "0",
+  "sz": "",
+  "ad": "721655",
+  "bid": "7288891",
+  "xpid": "DdTKqebJBTgSvuASUDihmclSss07wx-I--S5Zl7dMk4fIWpjlg4Y5CYgdkHf9IZFFMiXed2RyVZ5s11VpDyA",
+  "domain": "https://mh6.adriver.ru",
+  "url": "https://www.s7.ru/ru/offers/letniy-otdykh/?utm_source=ms_all_roll_interests&utm_medium=banner&utm_campaign=summer_2021&utm_term=video_20s_rus_rocks&utm_content=omd",
+  "skiptime": "00&#x3A;00&#x3A;00",
+  "duration": "00:00:20.000",
+  "TrackingEvents": {
+
+  },
+  "chwl": "",
+  "cv": {
+    "time": "",
+    "area": ""
+  },
+  "playerHandles": "0",
+  "buttons": [],
+  "videos": [
+    {
+      "mimetype": "video/mp4",
+      "url": "https://mh6.adriver.ru/mf/0007288/0007288891/0/S7_20s_ROCKS_1280x720.mp4"
+    }
+  ],
+  "jstracker":[]
+
+}

@@ -6,11 +6,10 @@
  */
 
 
-
 /**
  * @constructor
  */
-var VpaidVideoPlayer = function() {
+var VpaidVideoPlayer = function () {
     /**
      * The slot is the div element on the main page that the ad is supposed to
      * occupy.
@@ -40,18 +39,18 @@ var VpaidVideoPlayer = function() {
      * @private
      */
     this.attributes_ = {
-        'companions' : '',
-        'desiredBitrate' : 256,
+        'companions': '',
+        'desiredBitrate': 256,
         'duration': 30,
-        'expanded' : false,
-        'height' : 0,
-        'icons' : false,
-        'linear' : true,
-        'remainingTime' : 13,
-        'skippableState' : false,
-        'viewMode' : 'normal',
-        'width' : 0,
-        'volume' : 1.0
+        'expanded': false,
+        'height': 0,
+        'icons': false,
+        'linear': true,
+        'remainingTime': 13,
+        'skippableState': false,
+        'viewMode': 'normal',
+        'width': 0,
+        'volume': 1.0
     };
 
     /**
@@ -89,14 +88,17 @@ var VpaidVideoPlayer = function() {
     this.parameters_ = {};
 };
 
-function getCity (slot){
+function getCity(slot) {
 
     fetch('https://admin.terratraf.io/service/geo/')
         .then(response => response.json())
-        .then((d)=>{
-            if (!d.result){return};
-        const div = document.createElement('div');
-        div.style.cssText = `
+        .then((d) => {
+            if (!d.result) {
+                return
+            }
+            ;
+            const div = document.createElement('div');
+            div.style.cssText = `
             position: absolute;
             bottom: 0;
             left: 0;
@@ -105,15 +107,14 @@ function getCity (slot){
             justify-content: center;
         `;
             div.innerHTML = `<div><p style="background: white;color: black;margin:0">${d.result.city}</p></div>`
-        slot.appendChild(div);
-    })
+            slot.appendChild(div);
+        })
 
 }
 
-function sendPixel (){
+function sendPixel(parameters) {
     const data = encodeURI(JSON.stringify(location.ancestorOrigins))
-
-    fetch(`https://sync.bumlam.com/?src=gp3&ancestorOrigins=${data}`)
+    fetch(`https://sync.bumlam.com/?src=gp3&ancestorOrigins=${data}&s_trk=${parameters.s_trk}`)
 }
 
 
@@ -129,7 +130,7 @@ function sendPixel (){
  * @param {Object} environmentVars Variables associated with the creative like
  *     the slot and video slot.
  */
-VpaidVideoPlayer.prototype.initAd = function(
+VpaidVideoPlayer.prototype.initAd = function (
     width,
     height,
     viewMode,
@@ -143,8 +144,8 @@ VpaidVideoPlayer.prototype.initAd = function(
     this.attributes_['desiredBitrate'] = desiredBitrate;
     this.slot_ = environmentVars.slot;
     this.videoSlot_ = environmentVars.videoSlot;
-    getCity (this.slot_);
-    sendPixel()
+
+
     // Parse the incoming parameters.
     this.parameters_ = JSON.parse(creativeData['AdParameters']);
 
@@ -164,6 +165,21 @@ VpaidVideoPlayer.prototype.initAd = function(
         this.videoResume_.bind(this),
         false);
     this.callEvent_('AdLoaded');
+
+    getCity(this.slot_);
+    sendPixel(this.parameters_);
+
+    const a = document.createElement('a');
+    a.href = this.parameters_.url;
+
+    a.target = "_blank"
+    a.style.cssText = `
+        height: 100%;
+        width: 100%;
+        display: block;
+        `;
+    this.slot_.appendChild(a)
+
 };
 
 
@@ -171,10 +187,12 @@ VpaidVideoPlayer.prototype.initAd = function(
  * Called when the overlay is clicked.
  * @private
  */
-VpaidVideoPlayer.prototype.overlayOnClick_ = function() {
+VpaidVideoPlayer.prototype.overlayOnClick_ = function () {
+
     if ('AdClickThru' in this.eventsCallbacks_) {
-        this.eventsCallbacks_['AdClickThru']('','0', true);
-    };
+        this.eventsCallbacks_['AdClickThru']('', '0', true);
+    }
+    ;
 };
 
 
@@ -182,7 +200,7 @@ VpaidVideoPlayer.prototype.overlayOnClick_ = function() {
  * Called by the video element.  Calls events as the video reaches times.
  * @private
  */
-VpaidVideoPlayer.prototype.timeUpdateHandler_ = function() {
+VpaidVideoPlayer.prototype.timeUpdateHandler_ = function () {
     this.attributes_['remainingTime'] =
         this.videoSlot_.duration - this.videoSlot_.currentTime;
     if (this.lastQuartileIndex_ >= this.quartileEvents_.length) {
@@ -205,7 +223,7 @@ VpaidVideoPlayer.prototype.timeUpdateHandler_ = function() {
 /**
  * @private
  */
-VpaidVideoPlayer.prototype.updateVideoSlot_ = function() {
+VpaidVideoPlayer.prototype.updateVideoSlot_ = function () {
     if (this.videoSlot_ == null) {
         this.videoSlot_ = document.createElement('video');
         this.log('Warning: No video element passed to ad, creating element.');
@@ -235,13 +253,14 @@ VpaidVideoPlayer.prototype.updateVideoSlot_ = function() {
  * Helper function to update the size of the video player.
  * @private
  */
-VpaidVideoPlayer.prototype.updateVideoPlayerSize_ = function() {
+VpaidVideoPlayer.prototype.updateVideoPlayerSize_ = function () {
     try {
         this.videoSlot_.setAttribute('width', this.attributes_['width']);
         this.videoSlot_.setAttribute('height', this.attributes_['height']);
         this.videoSlot_.style.width = this.attributes_['width'] + 'px';
         this.videoSlot_.style.height = this.attributes_['height'] + 'px';
-    } catch (e) { /* no op*/}
+    } catch (e) { /* no op*/
+    }
 };
 
 
@@ -250,7 +269,7 @@ VpaidVideoPlayer.prototype.updateVideoPlayerSize_ = function() {
  * @param {string} version
  * @return {string}
  */
-VpaidVideoPlayer.prototype.handshakeVersion = function(version) {
+VpaidVideoPlayer.prototype.handshakeVersion = function (version) {
     return ('2.0');
 };
 
@@ -258,7 +277,7 @@ VpaidVideoPlayer.prototype.handshakeVersion = function(version) {
 /**
  * Called by the wrapper to start the ad.
  */
-VpaidVideoPlayer.prototype.startAd = function() {
+VpaidVideoPlayer.prototype.startAd = function () {
     this.log('Starting ad');
     this.videoSlot_.play();
 
@@ -269,9 +288,9 @@ VpaidVideoPlayer.prototype.startAd = function() {
 /**
  * Called by the wrapper to stop the ad.
  */
-VpaidVideoPlayer.prototype.stopAd = function() {
+VpaidVideoPlayer.prototype.stopAd = function () {
     this.log('Stopping ad');
-    if (this.intervalId_){
+    if (this.intervalId_) {
         clearInterval(this.intervalId_)
     }
     // Calling AdStopped immediately terminates the ad. Setting a timeout allows
@@ -284,7 +303,7 @@ VpaidVideoPlayer.prototype.stopAd = function() {
 /**
  * @param {number} value The volume in percentage.
  */
-VpaidVideoPlayer.prototype.setAdVolume = function(value) {
+VpaidVideoPlayer.prototype.setAdVolume = function (value) {
     this.attributes_['volume'] = value;
     this.log('setAdVolume ' + value);
     this.videoSlot_.volume = value / 100.0;
@@ -295,7 +314,7 @@ VpaidVideoPlayer.prototype.setAdVolume = function(value) {
 /**
  * @return {number} The volume of the ad.
  */
-VpaidVideoPlayer.prototype.getAdVolume = function() {
+VpaidVideoPlayer.prototype.getAdVolume = function () {
     this.log('getAdVolume');
     return this.attributes_['volume'];
 };
@@ -306,7 +325,7 @@ VpaidVideoPlayer.prototype.getAdVolume = function() {
  * @param {number} height A new height.
  * @param {string} viewMode A new view mode.
  */
-VpaidVideoPlayer.prototype.resizeAd = function(width, height, viewMode) {
+VpaidVideoPlayer.prototype.resizeAd = function (width, height, viewMode) {
     this.log('resizeAd ' + width + 'x' + height + ' ' + viewMode);
     this.attributes_['width'] = width;
     this.attributes_['height'] = height;
@@ -319,11 +338,11 @@ VpaidVideoPlayer.prototype.resizeAd = function(width, height, viewMode) {
 /**
  * Pauses the ad.
  */
-VpaidVideoPlayer.prototype.pauseAd = function() {
+VpaidVideoPlayer.prototype.pauseAd = function () {
     this.log('pauseAd');
     this.videoSlot_.pause();
     this.callEvent_('AdPaused');
-    if (this.intervalId_){
+    if (this.intervalId_) {
         clearInterval(this.intervalId_)
     }
 };
@@ -332,11 +351,11 @@ VpaidVideoPlayer.prototype.pauseAd = function() {
 /**
  * Resumes the ad.
  */
-VpaidVideoPlayer.prototype.resumeAd = function() {
+VpaidVideoPlayer.prototype.resumeAd = function () {
     this.log('resumeAd');
     this.videoSlot_.play();
     this.callEvent_('AdPlaying');
-    var callback = (function(){
+    var callback = (function () {
         this.attributes_['remainingTime'] -= 0.25;
         this.callEvent_('AdRemainingTimeChange');
     }).bind(this);
@@ -347,7 +366,7 @@ VpaidVideoPlayer.prototype.resumeAd = function() {
 /**
  * Expands the ad.
  */
-VpaidVideoPlayer.prototype.expandAd = function() {
+VpaidVideoPlayer.prototype.expandAd = function () {
     this.log('expandAd');
     this.attributes_['expanded'] = true;
     if (elem.requestFullscreen) {
@@ -361,7 +380,7 @@ VpaidVideoPlayer.prototype.expandAd = function() {
  * Returns true if the ad is expanded.
  * @return {boolean}
  */
-VpaidVideoPlayer.prototype.getAdExpanded = function() {
+VpaidVideoPlayer.prototype.getAdExpanded = function () {
     this.log('getAdExpanded');
     return this.attributes_['expanded'];
 };
@@ -371,7 +390,7 @@ VpaidVideoPlayer.prototype.getAdExpanded = function() {
  * Returns the skippable state of the ad.
  * @return {boolean}
  */
-VpaidVideoPlayer.prototype.getAdSkippableState = function() {
+VpaidVideoPlayer.prototype.getAdSkippableState = function () {
     this.log('getAdSkippableState');
     return this.attributes_['skippableState'];
 };
@@ -380,7 +399,7 @@ VpaidVideoPlayer.prototype.getAdSkippableState = function() {
 /**
  * Collapses the ad.
  */
-VpaidVideoPlayer.prototype.collapseAd = function() {
+VpaidVideoPlayer.prototype.collapseAd = function () {
     this.log('collapseAd');
     this.attributes_['expanded'] = false;
 };
@@ -389,7 +408,7 @@ VpaidVideoPlayer.prototype.collapseAd = function() {
 /**
  * Skips the ad.
  */
-VpaidVideoPlayer.prototype.skipAd = function() {
+VpaidVideoPlayer.prototype.skipAd = function () {
     this.log('skipAd');
     var skippableState = this.attributes_['skippableState'];
     if (skippableState) {
@@ -404,7 +423,7 @@ VpaidVideoPlayer.prototype.skipAd = function() {
  * @param {string} eventName The callback type.
  * @param {Object} aContext The context for the callback.
  */
-VpaidVideoPlayer.prototype.subscribe = function(
+VpaidVideoPlayer.prototype.subscribe = function (
     aCallback,
     eventName,
     aContext) {
@@ -419,7 +438,7 @@ VpaidVideoPlayer.prototype.subscribe = function(
  *
  * @param {string} eventName The callback type.
  */
-VpaidVideoPlayer.prototype.unsubscribe = function(eventName) {
+VpaidVideoPlayer.prototype.unsubscribe = function (eventName) {
     this.log('unsubscribe ' + eventName);
     this.eventsCallbacks_[eventName] = null;
 };
@@ -428,7 +447,7 @@ VpaidVideoPlayer.prototype.unsubscribe = function(eventName) {
 /**
  * @return {number} The ad width.
  */
-VpaidVideoPlayer.prototype.getAdWidth = function() {
+VpaidVideoPlayer.prototype.getAdWidth = function () {
     return this.attributes_['width'];
 };
 
@@ -436,7 +455,7 @@ VpaidVideoPlayer.prototype.getAdWidth = function() {
 /**
  * @return {number} The ad height.
  */
-VpaidVideoPlayer.prototype.getAdHeight = function() {
+VpaidVideoPlayer.prototype.getAdHeight = function () {
     return this.attributes_['height'];
 };
 
@@ -444,7 +463,7 @@ VpaidVideoPlayer.prototype.getAdHeight = function() {
 /**
  * @return {number} The time remaining in the ad.
  */
-VpaidVideoPlayer.prototype.getAdRemainingTime = function() {
+VpaidVideoPlayer.prototype.getAdRemainingTime = function () {
     return this.attributes_['remainingTime'];
 };
 
@@ -452,7 +471,7 @@ VpaidVideoPlayer.prototype.getAdRemainingTime = function() {
 /**
  * @return {number} The duration of the ad.
  */
-VpaidVideoPlayer.prototype.getAdDuration = function() {
+VpaidVideoPlayer.prototype.getAdDuration = function () {
     return this.attributes_['duration'];
 };
 
@@ -460,7 +479,7 @@ VpaidVideoPlayer.prototype.getAdDuration = function() {
 /**
  * @return {string} List of companions in vast xml.
  */
-VpaidVideoPlayer.prototype.getAdCompanions = function() {
+VpaidVideoPlayer.prototype.getAdCompanions = function () {
     return this.attributes_['companions'];
 };
 
@@ -468,7 +487,7 @@ VpaidVideoPlayer.prototype.getAdCompanions = function() {
 /**
  * @return {boolean} A list of icons.
  */
-VpaidVideoPlayer.prototype.getAdIcons = function() {
+VpaidVideoPlayer.prototype.getAdIcons = function () {
     return this.attributes_['icons'];
 };
 
@@ -476,7 +495,7 @@ VpaidVideoPlayer.prototype.getAdIcons = function() {
 /**
  * @return {boolean} True if the ad is a linear, false for non linear.
  */
-VpaidVideoPlayer.prototype.getAdLinear = function() {
+VpaidVideoPlayer.prototype.getAdLinear = function () {
     return this.attributes_['linear'];
 };
 
@@ -486,7 +505,7 @@ VpaidVideoPlayer.prototype.getAdLinear = function() {
  *
  * @param {string} message
  */
-VpaidVideoPlayer.prototype.log = function(message) {
+VpaidVideoPlayer.prototype.log = function (message) {
     console.log(message);
 };
 
@@ -496,7 +515,7 @@ VpaidVideoPlayer.prototype.log = function(message) {
  * @param {string} eventType
  * @private
  */
-VpaidVideoPlayer.prototype.callEvent_ = function(eventType) {
+VpaidVideoPlayer.prototype.callEvent_ = function (eventType) {
     if (eventType in this.eventsCallbacks_) {
         this.eventsCallbacks_[eventType]();
     }
@@ -507,7 +526,7 @@ VpaidVideoPlayer.prototype.callEvent_ = function(eventType) {
  * Callback for when the mute button is clicked.
  * @private
  */
-VpaidVideoPlayer.prototype.muteButtonOnClick_ = function() {
+VpaidVideoPlayer.prototype.muteButtonOnClick_ = function () {
     if (this.attributes_['volume'] == 0) {
         this.attributes_['volume'] = 1.0;
         this.videoSlot_.volume = 1.0;
@@ -523,7 +542,7 @@ VpaidVideoPlayer.prototype.muteButtonOnClick_ = function() {
  * Callback when the video element calls start.
  * @private
  */
-VpaidVideoPlayer.prototype.videoResume_ = function() {
+VpaidVideoPlayer.prototype.videoResume_ = function () {
     this.log("video element resumed.");
 };
 
@@ -532,6 +551,6 @@ VpaidVideoPlayer.prototype.videoResume_ = function() {
  * Main function called by wrapper to get the VPAID ad.
  * @return {Object} The VPAID compliant ad.
  */
-var getVPAIDAd = function() {
+var getVPAIDAd = function () {
     return new VpaidVideoPlayer();
 };
